@@ -14,6 +14,7 @@ import { SubscriptionPage } from './pages/Subscription/Subscription';
 import { Footer } from './components/Shared/Footer/Footer';
 import { PaymentPage } from './pages/Payment/PaymentPage';
 import { Loader } from './components/Shared/Loader/Loader';
+import { Database } from './components/Shared/data';
 
 function App() {
   const [data, setData] = useState(() => {
@@ -26,12 +27,11 @@ function App() {
     const savedItems = localStorage.getItem('addedItemsToCart');
     return savedItems ? JSON.parse(savedItems) : [];
   });
-
   useEffect(() => {
     if (!data) {
       const fetchData = async () => {
         try {
-          const data = await getAllDataFromDatabase();
+          const data = Database;
           setData(data);
           console.log('Connect to DB')
           localStorage.setItem('data', JSON.stringify(data));
@@ -57,6 +57,7 @@ function App() {
     setAddedItemsToCart((prevItems) => prevItems.filter((thisItem) => thisItem !== item));
   };
 
+  console.log(data)
   const router = createBrowserRouter(
     [
       { path: '/', element: <Home data={data}/> },
